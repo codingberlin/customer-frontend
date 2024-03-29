@@ -1,11 +1,13 @@
-import React, {useState} from 'react';
-import {Button, Container, FormLabel, Grid, TextareaAutosize, TextField} from "@mui/material";
+import React, {useContext, useState} from 'react';
+import {Button, Container, FormLabel, Grid, TextField} from "@mui/material";
 import isValidVatId from "./client/VatIdValidatorClient";
 import createCustomer from "./client/CreateCustomerClient";
 import {useNavigate} from "react-router-dom";
+import {UserToken} from "./App";
 
 function CreateCustomer() {
     const navigate = useNavigate()
+    const token = useContext(UserToken)
     const [firstName, setFirstName] = useState('');
     const [firstNameError, setFirstNameError] = useState(false);
     const [lastName, setLastName] = useState('');
@@ -33,7 +35,7 @@ function CreateCustomer() {
         setLastNameError(isError)
         setSubmitDisabled(firstNameError || isError || vatIdError)
     }
-    async function onChangeTaxId(e: React.ChangeEvent<HTMLInputElement>) {
+    async function onChangeVatId(e: React.ChangeEvent<HTMLInputElement>) {
         setVatIdError(false)
         setVatId(e.target.value);
         const isError = !await isValidVatId(e.target.value)
@@ -47,6 +49,7 @@ function CreateCustomer() {
     async function onSubmit() {
         setSubmitDisabled(true)
         await createCustomer(
+            token,
             vatId,
             firstName,
             lastName,
@@ -93,7 +96,7 @@ function CreateCustomer() {
                 </Grid>
                 <Grid item xs={7} />
                 <Grid item xs={12}>
-                    <TextField label="Umsatzsteuer-ID" value={vatId} onChange={onChangeTaxId} error={vatIdError}
+                    <TextField label="Umsatzsteuer-ID" value={vatId} onChange={onChangeVatId} error={vatIdError}
                                helperText={vatIdError ? 'Bitte eine gültige Umsatzstreuer-ÍD angeben' : null} fullWidth />
                 </Grid>
                 <Grid item xs={12}>

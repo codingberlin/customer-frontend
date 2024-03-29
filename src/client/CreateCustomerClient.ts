@@ -1,6 +1,7 @@
 import axios from "axios";
 
 async function createCustomer(
+    token: string,
     vatId: string,
     firstName: string,
     lastName: string,
@@ -21,6 +22,10 @@ async function createCustomer(
         addressZipCode,
         addressCity,
         addressCountry,
+    }, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
     })
 }
 

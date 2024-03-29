@@ -25,6 +25,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "docker": "docker build -t customer-frontend .",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -32,6 +33,11 @@
       "react-app",
       "react-app/jest"
     ]
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^axios$": "axios/dist/node/axios.cjs"
+    }
   },
   "browserslist": {
     "production": [

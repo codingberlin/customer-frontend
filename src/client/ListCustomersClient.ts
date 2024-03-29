@@ -12,8 +12,12 @@ export interface Customer {
     addressCity: string
     addressCountry: string
 }
-async function listCustomers(): Promise<Customer[]> {
-    return (await axios.get('http://localhost:9000/sub-customers')).data
+async function listCustomers(token: string): Promise<Customer[]> {
+    return (await axios.get('http://localhost:9000/sub-customers', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })).data
 }
 
 export default listCustomers;
