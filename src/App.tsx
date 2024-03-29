@@ -2,6 +2,8 @@ import React from 'react';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Login from "./Login";
 import CustomersOverview from "./CustomersOverview";
+import CreateCustomer from "./CreateCustomer";
+import ListCustomers from "./ListCustomers";
 
 function loginOrApp() {
     const storageToken = window.sessionStorage.getItem("token")
@@ -19,6 +21,14 @@ function loginOrApp() {
     }
 
     return createBrowserRouter([
+        {
+            path: "/list-customers",
+            element: <ListCustomers/>
+        },
+        {
+            path: "/create-customer",
+            element: <CreateCustomer/>
+        },
         {
             path: "*",
             element: <CustomersOverview/>
