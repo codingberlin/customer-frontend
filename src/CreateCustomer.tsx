@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import {Button, Container, FormLabel, Grid, TextareaAutosize, TextField} from "@mui/material";
-import isValidVatId from "./VatIdValidatorClient";
+import isValidVatId from "./client/VatIdValidatorClient";
+import createCustomer from "./client/CreateCustomerClient";
+import {useNavigate} from "react-router-dom";
 
 function CreateCustomer() {
-
+    const navigate = useNavigate()
     const [firstName, setFirstName] = useState('');
     const [firstNameError, setFirstNameError] = useState(false);
     const [lastName, setLastName] = useState('');
@@ -13,23 +15,49 @@ function CreateCustomer() {
     const [addressZipCode, setAddressZipCode] = useState('');
     const [addressCity, setAddressCity] = useState('');
     const [addressCountry, setAddressCountry] = useState('');
-    const [taxId, setTaxId] = useState('');
-    const [taxIdError, setTaxIdError] = useState(false);
+    const [vatId, setVatId] = useState('');
+    const [vatIdError, setVatIdError] = useState(false);
     const [comment, setComment] = useState('');
+    const [submitDisabled, setSubmitDisabled] = useState(false)
 
     function onChangeFirstName(e: React.ChangeEvent<HTMLInputElement>) {
         setFirstName(e.target.value);
-        setFirstNameError(e.target.value == "")
+        const isError = e.target.value == ""
+        setFirstNameError(isError)
+        setSubmitDisabled(isError || lastNameError || vatIdError)
     }
 
     function onChangeLastName(e: React.ChangeEvent<HTMLInputElement>) {
         setLastName(e.target.value);
-        setLastNameError(e.target.value == "")
+        const isError = e.target.value == ""
+        setLastNameError(isError)
+        setSubmitDisabled(firstNameError || isError || vatIdError)
     }
     async function onChangeTaxId(e: React.ChangeEvent<HTMLInputElement>) {
-        setTaxIdError(false)
-        setTaxId(e.target.value);
-        setTaxIdError(!await isValidVatId(e.target.value))
+        setVatIdError(false)
+        setVatId(e.target.value);
+        const isError = !await isValidVatId(e.target.value)
+        setVatIdError(isError)
+        setSubmitDisabled(firstNameError || lastNameError || isError)
+    }
+
+    function updateSubmitDisabled() {
+    }
+
+    async function onSubmit() {
+        setSubmitDisabled(true)
+        await createCustomer(
+            vatId,
+            firstName,
+            lastName,
+            comment,
+            addressStreet,
+            addressHouseNumber,
+            addressZipCode,
+            addressCity,
+            addressCountry,
+        );
+        navigate('/list-customers')
     }
 
     return (
@@ -64,19 +92,21 @@ function CreateCustomer() {
                     <TextField label="Land" value={addressCountry} onChange={(e) => setAddressCountry(e.target.value)} fullWidth />
                 </Grid>
                 <Grid item xs={7} />
-                    <Grid item xs={12}>
-                        <TextField label="Umsatzsteuer-ID" value={taxId} onChange={onChangeTaxId} error={taxIdError}
-                                   helperText={taxIdError ? 'Bitte eine gültige Umsatzstreuer-ÍD angeben' : null} fullWidth />
-                    </Grid>
+                <Grid item xs={12}>
+                    <TextField label="Umsatzsteuer-ID" value={vatId} onChange={onChangeTaxId} error={vatIdError}
+                               helperText={vatIdError ? 'Bitte eine gültige Umsatzstreuer-ÍD angeben' : null} fullWidth />
+                </Grid>
                 <Grid item xs={12}>
                     <TextField label="Kommentar" value={comment} onChange={(e) => setComment(e.target.value)} fullWidth multiline inputProps={{maxLength :100}}/>
                 </Grid>
                 <Grid item xs={12}>
                     <Button
                         size="large"
-                            color="primary"
-                            variant="contained"
-                        >Neuen Kunden anlegen</Button>
+                        color="primary"
+                        variant="contained"
+                        onClick={onSubmit}
+                        disabled={submitDisabled}
+                    >Neuen Kunden anlegen</Button>
                 </Grid>
             </Grid>
         </Container>
