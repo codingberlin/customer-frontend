@@ -35,6 +35,10 @@ npm run docker
 Starting the built docker image
 
 ```bash
+# (the frontend requires the customer-backend and its database to run with the commands from the backend repository:
+# (make bundle
+# (make freshdb
+# (docker run -p 9000:9000 customer-backend
 docker run -p 3000:3000 customer-frontend
 # http://localhost:3000/ serves the SPA
 ```
