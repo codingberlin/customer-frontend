@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Container, FormControl, FormLabel} from "@mui/material";
+import {Button, Container, FormControl, FormLabel, Grid} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 
 function CustomersOverview() {
@@ -9,21 +9,29 @@ function CustomersOverview() {
 
     return (
         <Container>
-            <FormControl>
-                <FormLabel>Was möchten Sie tun?</FormLabel>
-            <Button
-                size="large"
-                color="primary"
-                variant="contained"
-                onClick={listCustomers}
-            >Kundenübersicht ansehen</Button>
-            <Button
-                size="large"
-                color="primary"
-                variant="contained"
-                onClick={createCustomer}
-            >Neuen Kunden anlegen</Button>
-            </FormControl>
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    Was möchten Sie tun?
+                </Grid>
+                <Grid item xs={6}>
+                    <Button
+                        size="large"
+                        color="primary"
+                        variant="contained"
+                        onClick={listCustomers}
+                        fullWidth
+                    >Kundenübersicht ansehen</Button>
+                </Grid>
+                <Grid item xs={6}>
+                    <Button
+                        size="large"
+                        color="primary"
+                        variant="contained"
+                        onClick={createCustomer}
+                        fullWidth
+                    >Neuen Kunden anlegen</Button>
+                </Grid>
+            </Grid>
         </Container>
     );
 }

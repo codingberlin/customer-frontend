@@ -6,9 +6,11 @@
 ### Thoughts
 * I use any UI library because I don't know the target UI library
 * To achieve better testability, the components must be cut better
-  * one test example is added, for production more tests should be added
+  * [one test example](./src/CreateCustomer.test.tsx) is added, for production more tests should be added
 * In this task the focus lies on the example functionality, accessibility and design will be discussed in the team and implemented accordingly
   * e.g. a menu is missing
+* the grids need further breakpoints, currently only xs is specified
+* a prettifier should be added to automate standardized code formatting
 
 ## development
 

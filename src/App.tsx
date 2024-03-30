@@ -20,17 +20,6 @@ const router = createBrowserRouter([
         element: <CustomersOverview/>
     },
 ])
-function loginOrApp(token: string) {
-    if (token) {
-        return
-    }
-    return createBrowserRouter([
-        {
-            path: "*",
-            element: <Login/>
-        },
-    ]);
-}
 function App() {
     const [token, setToken] = useState('')
     if (!token) {
