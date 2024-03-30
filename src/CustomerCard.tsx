@@ -23,7 +23,7 @@ function CustomerCard(props: any) {
                 <Grid item xs={12}>
                     {customer.addressCountry}
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} sx={{whiteSpace: 'pre-wrap'}}>
                     {customer.comment}
                 </Grid>
             </Grid>

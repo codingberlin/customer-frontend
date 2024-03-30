@@ -13,6 +13,7 @@ function ListCustomers() {
 
     return (
         <Container>
+            {customers.length === 0 ? 'Es sind noch keine Kund:innen angelegt.' : <></>}
             {customers.map(c => <CustomerCard key={c.id} customer={c} />)}
         </Container>
     );
